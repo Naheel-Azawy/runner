@@ -85,7 +85,7 @@ Add this to you `.emacs`:
 (global-set-key [C-f5] 'run-program)
 ```
 
-![screenshot](./screenshot-emacs.png)
+![screenshot](./imgs/screenshot-emacs.png)
 
 ### Gedit
 Yes! it comes with a gedit plugin!
@@ -95,7 +95,7 @@ Yes! it comes with a gedit plugin!
 - Enable Runner
 - Enjoy 
 
-![screenshot](./screenshot-gedit.png)
+![screenshot](./imgs/screenshot-gedit.png)
 
 ### Add / Override
 Create `~/.config/.runners.json`. Example:
