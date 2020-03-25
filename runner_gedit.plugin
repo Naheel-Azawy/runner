@@ -1,0 +1,9 @@
+[Plugin]
+Loader=python3
+Module=runner_gedit
+IAge=3
+Name=Runner
+Description=Run almost everything with a single click!
+Authors=Naheel Azawy <naheelazawy@gmail.com>
+Copyright=Copyright (C) 2020 Naheel Azawy
+Website=https://github.com/Naheel-Azawy/runner

@@ -1,0 +1,393 @@
+{
+    ".java": {
+        "ext": "java",
+        "name": "Java",
+        "outFile": "'{outPath}{fileNameNoExt}.class'",
+        "cm": "javac {inputFiles} && cd '{filePath}' && mv {fileNameNoExt}*.class '{outPath}'",
+        "rn": "java -cp '{outPath}' {fileNameNoExt}",
+        "tmp": "public class Tmp {{ public static void main(String[] args) {{ {s}; }} }}",
+        "needs": [ "javac", "java" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S jdk8-openjdk",
+            "fedora": "sudo dnf install -y java-openjdk",
+            "ubuntu": "sudo apt-get install -y openjdk-8-jre openjdk-8-jdk-headless"
+        }
+    },
+
+    ".kt": {
+        "ext": "kt",
+        "name": "Kotlin",
+        "outFile": "'{outPath}{fileNameNoExt}.jar'",
+        "cm": "kotlinc {inputFiles} -include-runtime -d {outFile}",
+        "rn": "cd \"{outPath}\" && java -jar {outFile}",
+        "tmp": "fun main(args: Array<String>) {{ {s} }}",
+        "needs": [ "kotlinc", "java" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S kotlin",
+            "default": "echo \"$(curl -s https://get.sdkman.io) && source \\\"\\${SDKMAN_DIR}/bin/sdkman-init.sh\\\" && sdk install kotlin\" | bash"
+        }
+    },
+
+    ".kts": {
+        "ext": "kts",
+        "name": "Kotlin Script",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "kotlinc -script {outFile}",
+        "needs": [ "kotlinc", "java" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S kotlin",
+            "default": "echo \"$(curl -s https://get.sdkman.io) && source \\\"\\${SDKMAN_DIR}/bin/sdkman-init.sh\\\" && sdk install kotlin\" | bash"
+        }
+    },
+
+    ".vala": {
+        "ext": "vala",
+        "name": "Vala",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "valac {inputFiles} -o {outFile}",
+        "rn": "{outFile}",
+        "tmp": "void main (string[] args) {{ {s}; }}",
+        "needs": [ "valac" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S vala",
+            "fedora": "sudo dnf install -y vala",
+            "ubuntu": "sudo add-apt-repository -y ppa:vala-team && sudo apt-get update -y && sudo apt-get install -y valac"
+        },
+        "cm_args": [
+            "Gtk", "--pkg gtk+-3.0",
+            "File", "--pkg gio-2.0",
+            "async ", "--pkg gio-2.0",
+            "Gee", "--pkg gee-0.8",
+            "Thread", "--thread"
+        ]
+    },
+
+    ".gs": {
+        "ext": "gs",
+        "equal": ".vala"
+    },
+
+    ".ml": {
+        "ext": "ml",
+        "name": "OCaml",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "ocamlopt {inputFiles} -o {outFile} && rm -f '{filePath}{fileNameNoExt}.o' '{filePath}{fileNameNoExt}.cmi' '{filePath}{fileNameNoExt}.cmx'",
+        "rn": "{outFile}",
+        "needs": [ "ocamlopt" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S ocaml",
+            "fedora": "sudo dnf install -y ocaml",
+            "ubuntu": "sudo apt-get install -y ocaml"
+        }
+    },
+
+    ".c": {
+        "ext": "c",
+        "name": "C",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "gcc {inputFiles} -o {outFile}",
+        "rn": "{outFile}",
+        "tmp": "#include <stdio.h>\n#include <stdlib.h>\nint main(int argc, char** argv) {{\n {s}; return 0; }}",
+        "needs": [ "gcc" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S gcc",
+            "fedora": "sudo dnf install -y gcc",
+            "ubuntu": "sudo apt-get install -y build-essential"
+        },
+        "cm_args": [
+            "<math", "-lm",
+            "<pthread", "-pthread",
+            "<X11", "-lX11",
+            "<glib", "`pkg-config glib-2.0 --cflags --libs`",
+            "<gtk/gtk", "`pkg-config gtk+-3.0 --cflags --libs`"
+        ]
+    },
+
+    ".cpp": {
+        "ext": "cpp",
+        "name": "C++",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "g++ {inputFiles} -o {outFile}",
+        "rn": "{outFile}",
+        "tmp": "#include<iostream>\nusing namespace std;int main(int argc, char* argv[]) {{ {s}; return 0; }}",
+        "needs": [ "g++" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S gcc",
+            "fedora": "sudo dnf install -y gcc-c++",
+            "ubuntu": "sudo apt-get install -y g++"
+        },
+        "cm_args": [
+            "<thread>", "-pthread",
+            "<gtkmm", "`pkg-config gtkmm-3.0 --cflags --libs`"
+        ]
+    },
+
+    ".C": {
+        "ext": "C",
+        "equal": ".cpp"
+    },
+
+    ".cc": {
+        "ext": "cc",
+        "equal": ".cpp"
+    },
+
+    ".CPP": {
+        "ext": "CPP",
+        "equal": ".cpp"
+    },
+
+    ".c++": {
+        "ext": "c++",
+        "equal": ".cpp"
+    },
+
+    ".cp": {
+        "ext": "cp",
+        "equal": ".cpp"
+    },
+
+    ".cxx": {
+        "ext": "cxx",
+        "equal": ".cpp"
+    },
+
+    ".cs": {
+        "ext": "cs",
+        "name": "C#",
+        "outFile": "'{outPath}{fileNameNoExt}.exe'",
+        "cm": "mcs {inputFiles} -out:{outFile}",
+        "rn": "mono {outFile}",
+        "tmp": "using System; public class Tmp {{ static public void Main (string[] args) {{ {s}; }} }}",
+        "needs": [ "mcs", "mono" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S mono",
+            "fedora": "sudo dnf install -y mono-devel",
+            "ubuntu": "sudo apt-get install -y mono-complete"
+        },
+        "cm_args": [
+            "using Gtk", "-pkg:gtk-sharp-3.0"
+        ]
+    },
+
+    ".vb": {
+        "ext": "vb",
+        "name": "VB.Net",
+        "outFile": "'{outPath}{fileNameNoExt}.exe'",
+        "cm": "vbnc {inputFiles} 1>/dev/null /out:{outFile}",
+        "rn": "mono {outFile}",
+        "tmp": "Imports System\nPublic Module modmain\nSub Main()\n{s}\nEnd Sub\nEnd Module",
+        "needs": [ "vbnc", "mono" ],
+        "install": {
+            "fedora": "sudo dnf install -y mono-devel",
+            "ubuntu": "sudo apt-get install -y mono-complete"
+        }
+    },
+
+    ".rs": {
+        "ext": "rs",
+        "name": "Rust",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "rustc {inputFiles} -o {outFile}",
+        "rn": "{outFile}",
+        "tmp": "fn main() {{ {s}; }}",
+        "needs": [ "rustc" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S rust",
+            "default": "curl https://sh.rustup.rs -sSf | sh && bash -c \"if ! grep -q 'source \\$HOME/.cargo/env' \\$HOME/.bashrc; then echo 'source \\$HOME/.cargo/env' >> \\$HOME/.bashrc; fi\""
+        }
+    },
+
+    ".go": {
+        "ext": "go",
+        "name": "Go",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "go build -o {outFile} {inputFiles}",
+        "rn": "{outFile}",
+        "tmp": "package main\nimport \"fmt\"\nfunc main() {{ {s} }}",
+        "needs": [ "go" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S go",
+            "fedora": "sudo dnf install -y golang",
+            "ubuntu": "sudo apt-get install -y golang"
+        }
+    },
+
+    ".js": {
+        "ext": "js",
+        "name": "JavaScript",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "node {outFile}",
+        "needs": [ "node" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S nodejs",
+            "fedora": "sudo dnf install -y nodejs",
+            "ubuntu": "sudo apt-get install -y nodejs"
+        }
+    },
+
+    ".ts": {
+        "ext": "ts",
+        "name": "TypeScript",
+        "outFile": "'{outPath}{fileNameNoExt}.js'",
+        "cm": "tsc {inputFiles} && mv '{filePath}{fileNameNoExt}.js' '{outPath}'",
+        "rn": "node {outFile}",
+        "needs": [ "tsc" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S nodejs npm && npm --version || sudo npm install -g typescript",
+            "fedora": "sudo dnf install -y nodejs npm && npm --version || sudo npm install -g typescript",
+            "ubuntu": "sudo apt-get install -y nodejs npm && npm --version || sudo npm install -g typescript"
+        }
+    },
+
+    ".asm": {
+        "ext": "asm",
+        "name": "Intel Assembly",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "nasm {inputFiles} -o '{outPath}{fileName}.o' -f elf{arch} && ld -s -o {outFile} '{outPath}{fileName}.o' && rm '{outPath}{fileName}.o'",
+        "rn": "{outFile}",
+        "needs": [ "nasm" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S nasm",
+            "fedora": "sudo dnf install -y nasm",
+            "ubuntu": "sudo apt-get install -y nasm"
+        }
+    },
+
+    ".s": {
+        "ext": "s",
+        "name": "ARM Assembly",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "arm-linux-gnu-as {inputFiles} -o '{outPath}{fileName}.o' && arm-linux-gnu-ld -s -o {outFile} '{outPath}{fileName}.o'",
+        "rn": "qemu-arm {outFile}",
+        "needs": [ "arm-linux-gnu-as", "arm-linux-gnu-ld", "qemu-arm" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S arm-none-eabi-gcc arm-none-eabi-newlib qemu-arch-extra && sudo ln -s /usr/bin/arm-none-eabi-as /usr/bin/arm-linux-gnu-as && sudo ln -s /usr/bin/arm-none-eabi-ld /usr/bin/arm-linux-gnu-ld",
+            "fedora": "sudo dnf install -y gcc-arm-linux-gnu qemu-system-arm",
+            "ubuntu": "sudo apt-get install -y gcc-arm-linux-gnueabi qemu-user && sudo ln -s /usr/bin/arm-linux-gnuabi-as /usr/bin/arm-linux-gnu-as && sudo ln -s /usr/bin/arm-linux-gnuabi-ld /usr/bin/arm-linux-gnu-ld"
+        }
+    },
+
+    ".py": {
+        "ext": "py",
+        "name": "Python",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "python3 {outFile}",
+        "needs": [ "python3" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S python3",
+            "fedora": "sudo dnf install -y python3",
+            "ubuntu": "sudo apt-get install -y python3"
+        }
+    },
+
+    ".m": {
+        "ext": "m",
+        "name": "Octave",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "octave --persist --no-gui --quiet {outFile}",
+        "needs": [ "octave" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S octave",
+            "fedora": "sudo dnf install -y octave",
+            "ubuntu": "sudo apt-get install -y octave"
+        }
+    },
+
+    ".sh": {
+        "ext": "sh",
+        "name": "Shell",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "bash {outFile}",
+        "needs": [ "bash" ]
+    },
+
+    ".pl": {
+        "ext": "pl",
+        "name": "Perl",
+        "outFile": "'{outPath}{fileName}'",
+        "cm": "cp {inputFiles} '{outPath}'",
+        "rn": "perl {outFile}",
+        "needs": [ "perl" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S perl",
+            "fedora": "sudo dnf install -y perl",
+            "ubuntu": "sudo apt-get install -y perl"
+        }
+    },
+
+    ".awk": {
+        "ext": "awk",
+        "name": "AWK",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "awk -f {outFile}",
+        "needs": [ "awk" ]
+    },
+
+    ".r": {
+        "ext": "r",
+        "name": "R",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "R --slave -f {outFile}",
+        "needs": [ "R" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S r"
+        }
+    },
+
+    ".dart": {
+        "ext": "dart",
+        "name": "Dart",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "dart {outFile}",
+        "needs": [ "dart" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S dart"
+        }
+    },
+
+    ".jl": {
+        "ext": "jl",
+        "name": "Julia",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "julia {outFile}",
+        "needs": [ "julia" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S julia"
+        }
+    },
+
+    ".hx": {
+        "ext": "hx",
+        "name": "Haxe",
+        "outFile": "'{outPath}{fileNameNoExt}.py'",
+        "cm": "cd '{filePath}' && haxe -main {fileNameNoExt} -python {outFile} -dce full",
+        "rn": "python3 {outFile}",
+        "needs": [ "haxe", "python3" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S haxe python3"
+        }
+    },
+
+    ".v": {
+        "ext": "v",
+        "name": "V",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "v -o {outFile} {inputFiles}",
+        "rn": "{outFile}",
+        "tmp": "fn main() {{\n {s} \n}}",
+        "needs": [ "v" ],
+        "install": {
+            "default": "mkdir -p .vlang && cd .vlang && git clone https://github.com/vlang/v && cd v && make && sudo ./v symlink"
+        }
+    }
+}
