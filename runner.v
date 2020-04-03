@@ -18,7 +18,7 @@ struct Lang {
 }
 
 struct Langs {
-mut:
+    mut:
     m map[string]Lang
 }
 
@@ -66,14 +66,17 @@ fn (l Langs) get(ext string) Lang {
 }
 
 fn (l Lang) get_installer(distro string) string {
-    inst := match distro {
+    mut inst := match distro {
         'arch'   { l.install.arch    }
         'fedora' { l.install.fedora  }
         'ubuntu' { l.install.ubuntu  }
         else     { l.install.default }
     }
     if inst == '' {
-        panic('Could not install ${l.name}. Please install it manually')
+        inst = l.install.default
+    }
+    if inst == '' {
+        panic('Could not install ${l.name} for ${distro}. Please install it manually')
     } else {
         return inst
     }
@@ -90,7 +93,7 @@ pub fn (l Lang) str() string {
         '    needs: ${l.needs},\n' +
         '    install: ${l.install},\n' +
         '    cm_args: $l.cm_args,\n'
-        '    equal: ${enc_str(l.equal)}\n}'
+    '    equal: ${enc_str(l.equal)}\n}'
 }
 
 pub fn (i LangInstall) str() string {
@@ -200,11 +203,11 @@ fn run(cmd mut cli.Command) {
             new_args << os.args[2]
 
             /*println('=== OS')
-            println(os.args)
-            println('=== CMD')
-            println(cmd.args)
-            println('=== NEW')
-            println(new_args)*/
+              println(os.args)
+              println('=== CMD')
+              println(cmd.args)
+              println('=== NEW')
+              println(new_args)*/
 
             cmd.parse(new_args)
             return
@@ -295,7 +298,11 @@ fn run(cmd mut cli.Command) {
     }
     if needs_install {
         println('Installing ${needed}...')
-        os.system(lang.get_installer(distro))
+        inst := lang.get_installer(distro)
+        if show_commands {
+            println('> $inst')
+        }
+        os.system(inst)
     }
 
     // get the last modified time before moving if needed
@@ -382,11 +389,15 @@ fn get_arch() string {
 }
 
 fn get_distro() string {
-    o := os.exec('lsb_release -ds') or {
-        panic('Failed getting distribution name')
+    if is_installed("pacman") {
+        return "arch"
+    } else if is_installed("dnf") {
+        return "fedora"
+    } else if is_installed("apt") {
+        return "ubuntu"
+    } else {
+        return ""
     }
-    to := o.output.index(' ') or {o.output.len - 2}
-    return o.output[1..to].to_lower()
 }
 
 fn is_installed(name string) bool {

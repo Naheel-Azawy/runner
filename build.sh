@@ -1,24 +1,32 @@
 #!/bin/sh
 
+info() {
+    printf "\e[1;34m$*\e[0m\n"
+}
+
+build_v() {
+    [ ! -f ./build/v/v ] &&
+        info BUILDING V... &&
+        cd build &&
+        git clone https://github.com/Naheel-Azawy/v &&
+        cd v &&
+        make &&
+        cd ../..
+}
+
 mkdir -p build
-v -o ./build/tmprn runner.v || exit
+build_v
+./build/v/v -o ./build/tmprn runner.v || exit
 [ -f ./build/runners.v ] ||
+    info BUILDING LANGS... &&
     ./build/tmprn  --outlangs > ./build/runners.v
 
-#sed -E '
-#1d;$d;
-#s/"\.(.+)": \{/langs.m["\1"] = Lang{/g;
-#s/    \},/    }/g;
-#s/"outFile": /out_file: /g;
-#s/"(.+)": /\1: /g;
-#s/install: /install: LangInstall/g;
-#s/'"'"'/\\'"'"'/g;
-#s/: "(.+)"/: r'"'"'\1'"'"'/g' \
-#    runners.json > ./build/runners.v
-
+info BUILDING "'rn'"...
 sed -e '/\/\/ ### FILL FROM ITSELF ###/ {' \
     -e 'r ./build/runners.v' -e 'd' -e '}' \
     runner.v > ./build/rn.v
-v -o ./build/rn ./build/rn.v
+./build/v/v -o ./build/rn ./build/rn.v
 
 mv ./build/rn .
+
+info DONE

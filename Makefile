@@ -1,7 +1,7 @@
 PREFIX = /usr
 CONKYDIR = $(DESTDIR)$(PREFIX)/share/conky/naheel
 
-rn: runner.v
+rn: runner.v runners.json build.sh
 	sh ./build.sh
 
 install: rn
