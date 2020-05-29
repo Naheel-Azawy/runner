@@ -344,7 +344,7 @@ fn run(cmd mut cli.Command) {
         if show_commands {
             println('> $rn')
         }
-        os.system("cd '$file_path' && $rn")
+        code = os.system("cd '$file_path' && $rn")
     }
 
     if tmp {
@@ -371,6 +371,8 @@ fn run(cmd mut cli.Command) {
     //println(json.encode(languages.get('gs')))
     //println(json.encode(languages))
     //println('fr=$fr, to=$to, cm_args=$cm_args, rn_args=$rn_args, args=${cmd.args[0]}')
+
+    exit(code)
 }
 
 fn format_item(m map[string]string, s string) string {
