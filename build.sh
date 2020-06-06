@@ -12,7 +12,7 @@ build_v() {
     [ ! -f ./build/v/v ] &&
         info BUILDING V... &&
         cd build &&
-        git clone https://github.com/Naheel-Azawy/v &&
+        git clone https://github.com/Naheel-Azawy/v-bak v &&
         cd v &&
         make &&
         cd ../..
