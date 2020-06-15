@@ -387,7 +387,7 @@
         "tmp": "fn main() {{\n {s} \n}}",
         "needs": [ "v" ],
         "install": {
-            "default": "rm -rf ~/.vlang && mkdir -p ~/.vlang && cd ~/.vlang && git clone https://github.com/Naheel-Azawy/v && cd v && make && sudo ./v symlink"
+            "default": "rm -rf ~/.vlang && mkdir -p ~/.vlang && cd ~/.vlang && git clone https://github.com/vlang/v.git && cd v && make && sudo ./v symlink"
         }
     }
 }
