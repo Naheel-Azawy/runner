@@ -236,9 +236,9 @@
         "rn": "node {outFile}",
         "needs": [ "tsc" ],
         "install": {
-            "arch": "sudo pacman --noconfirm --needed -S nodejs npm && npm --version || sudo npm install -g typescript",
-            "fedora": "sudo dnf install -y nodejs npm && npm --version || sudo npm install -g typescript",
-            "ubuntu": "sudo apt-get install -y nodejs npm && npm --version || sudo npm install -g typescript"
+            "arch": "sudo pacman --noconfirm --needed -S nodejs npm && npm --version && sudo npm install -g typescript",
+            "fedora": "sudo dnf install -y nodejs npm && npm --version && sudo npm install -g typescript",
+            "ubuntu": "sudo apt-get install -y nodejs npm && npm --version && sudo npm install -g typescript"
         }
     },
 
