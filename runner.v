@@ -1,8 +1,6 @@
-import (
-    cli
-    os
-    json
-)
+import cli
+import os
+import json
 
 struct Lang {
     ext      string
@@ -40,7 +38,7 @@ fn init_langs() Langs {
     return langs
 }
 
-fn (l mut Langs) update(file string) {
+fn (mut l Langs) update(file string) {
     languages_str := os.read_file(file) or {
         return
     }
@@ -92,8 +90,8 @@ pub fn (l Lang) str() string {
         '    tmp: ${enc_str(l.tmp)},\n' +
         '    needs: ${l.needs},\n' +
         '    install: ${l.install},\n' +
-        '    cm_args: $l.cm_args,\n'
-    '    equal: ${enc_str(l.equal)}\n}'
+        '    cm_args: $l.cm_args,\n' +
+        '    equal: ${enc_str(l.equal)}\n}'
 }
 
 pub fn (i LangInstall) str() string {
@@ -141,7 +139,7 @@ fn main() {
     cmd.parse(os.args)
 }
 
-fn run(cmd mut cli.Command) {
+fn run(mut cmd cli.Command) {
 
     languages := init_langs()
 
