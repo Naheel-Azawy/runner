@@ -139,7 +139,7 @@ fn main() {
     cmd.parse(os.args)
 }
 
-fn run(mut cmd cli.Command) {
+fn run(cmd cli.Command) {
 
     languages := init_langs()
 
@@ -207,7 +207,7 @@ fn run(mut cmd cli.Command) {
               println('=== NEW')
               println(new_args)*/
 
-            cmd.parse(new_args)
+            //cmd.parse(new_args) // TODO: fix this
             return
         } else {
             panic('No input provided')
