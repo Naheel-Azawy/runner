@@ -42,11 +42,11 @@ fn (mut l Langs) update(file string) {
     languages_str := os.read_file(file) or {
         return
     }
-    languages_arr := json.decode([]Lang, languages_str) or {
+    languages_map := json.decode(map[string]Lang, languages_str) or {
         panic('Failed to parse json')
     }
 
-    for lang in languages_arr {
+    for _, lang in languages_map {
         l.m[lang.ext] = lang
     }
 }
@@ -129,9 +129,9 @@ fn main() {
     cmd.add_flag(cli.Flag{ flag: .string, name: 'morefiles', abbrev: 'm',
                            description: 'Additional files'})
     cmd.add_flag(cli.Flag{ flag: .int,    name: 'from',      abbrev: 'f',
-                           description: 'Lines from', value: '0'})
+                           description: 'Lines from', value: ['0']})
     cmd.add_flag(cli.Flag{ flag: .int,    name: 'to',        abbrev: 't',
-                           description: 'Lines to',   value: '-1'})
+                           description: 'Lines to',   value: ['-1']})
     cmd.add_flag(cli.Flag{ flag: .bool,   name: 'showcmds',  abbrev: 'v'
                            description: 'Print executed commands'})
     cmd.add_flag(cli.Flag{ flag: .bool,   name: 'outlangs',
@@ -148,14 +148,14 @@ fn run(cmd cli.Command) {
         for l in languages.m.keys() {
             println('langs.m[\'$l\'] = ${languages.m[l]}')
         }
-        return
+        exit(0)
     }
 
     home := os.getenv('HOME')
     base := home + '/.cache/runnables'
 
     if !os.is_dir(base) {
-        os.mkdir_all(base)
+        os.mkdir_all(base) or { panic(err) }
     }
 
     fr            := cmd.flags.get_int('from')         or { panic(err) }
@@ -266,7 +266,7 @@ fn run(cmd cli.Command) {
                 .replace('\\n', '\n')
                 .replace('{s}', tmp_src)
         }
-        os.write_file(source_file, tmp_src)
+        os.write_file(source_file, tmp_src) or { panic(err) }
     }
 
     // TODO: use tmp_src if possible
@@ -314,21 +314,21 @@ fn run(cmd cli.Command) {
 
     gen_temp := sh || fr != 0 || to != -1
     if gen_temp {
-        os.mkdir_all(out_path)
-        os.cp(source_file, temp_file) or {panic(err)}
+        os.mkdir_all(out_path) or { panic(err) }
+        os.cp(source_file, temp_file) or { panic(err) }
         if to == -1 {
             to = data.len
         } else {
             to++
         }
-        os.write_file(source_file, data[fr..to].join_lines())
+        os.write_file(source_file, data[fr..to].join_lines()) or { panic(err) }
     }
 
     // compile if needed
     mut code := 0
     bin := out_file[1..out_file.len-1]
     if !os.exists(bin) || os.file_last_mod_unix(bin) < source_file_mtime || fr != 0 || to != -1 {
-        os.mkdir_all(out_path)
+        os.mkdir_all(out_path) or { panic(err) }
         if cm != '' {
             if show_commands {
                 println('> $cm')
@@ -346,7 +346,7 @@ fn run(cmd cli.Command) {
     }
 
     if tmp {
-        os.rm(source_file)
+        os.rm(source_file) or { panic(err) }
     }
 
     if gen_temp {
@@ -382,9 +382,7 @@ fn format_item(m map[string]string, s string) string {
 }
 
 fn get_arch() string {
-    o := os.exec('uname -m') or {
-        panic('Failed getting machine architecture')
-    }
+    o := os.execute('uname -m')
     return if o.output.contains('64') {'64'} else {'32'}
 }
 
@@ -401,9 +399,7 @@ fn get_distro() string {
 }
 
 fn is_installed(name string) bool {
-    o := os.exec('command -v $name') or {
-        panic('Failed checking for dependencies')
-    }
+    o := os.execute('command -v $name')
     return o.exit_code == 0
 }
 

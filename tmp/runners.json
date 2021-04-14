@@ -1,0 +1,10 @@
+{
+    "alice": {
+        "foo": "Alice",
+        "nope": [ "a", "b" ]
+    },
+    "bob": {
+        "foo": "Bob",
+        "nope": [ "c", "d" ]
+    }
+}
