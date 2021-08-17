@@ -30,7 +30,7 @@ build_v
 $V -o ./build/tmprn runner.v || exit
 [ -f ./build/runners.v ] ||
     info BUILDING LANGS... &&
-    ./build/tmprn  --outlangs > ./build/runners.v
+    ./build/tmprn -outlangs > ./build/runners.v
 
 info BUILDING "'rn'"...
 sed -e '/\/\/ ### FILL FROM ITSELF ###/ {' \
