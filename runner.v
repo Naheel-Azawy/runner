@@ -139,7 +139,7 @@ fn main() {
     cmd.parse(os.args)
 }
 
-fn run(cmd cli.Command) {
+fn run(cmd cli.Command) ? {
 
     languages := init_langs()
 
