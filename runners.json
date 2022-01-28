@@ -389,5 +389,14 @@
         "install": {
             "default": "rm -rf ~/.vlang && mkdir -p ~/.vlang && cd ~/.vlang && git clone https://github.com/vlang/v.git && cd v && make && sudo ./v symlink"
         }
+    },
+
+    ".fnl": {
+        "ext": "fnl",
+        "name": "Fennel",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "fennel {outFile}",
+        "needs": [ "fennel" ]
     }
 }
