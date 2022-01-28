@@ -389,5 +389,17 @@
         "install": {
             "default": "rm -rf ~/.vlang && mkdir -p ~/.vlang && cd ~/.vlang && git clone https://github.com/vlang/v.git && cd v && make && sudo ./v symlink"
         }
+    },
+
+    ".lua": {
+        "ext": "lua",
+        "name": "Lua",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "lua {outFile}",
+        "needs": [ "lua" ],
+        "install": {
+            "ubuntu": "sudo apt-get install -y lua5.3"
+        }
     }
 }
