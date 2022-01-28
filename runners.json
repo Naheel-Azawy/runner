@@ -399,6 +399,8 @@
         "rn": "lua {outFile}",
         "needs": [ "lua" ],
         "install": {
+            "arch": "sudo pacman --noconfirm --needed -S lua",
+            "fedora": "sudo dnf install -y lua",
             "ubuntu": "sudo apt-get install -y lua5.3"
         }
     }
