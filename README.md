@@ -29,6 +29,7 @@ Note that this might not be so stable as V is still in a very early stage. Maybe
 - R (R)
 - Dart (dart)
 - Julia (julia)
+- Lua (lua)
 - Haxe (haxe and python3)
 
 ### Installation

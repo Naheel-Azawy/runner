@@ -28,6 +28,7 @@ info Perl && ./HelloPerl.pl
 info R && ./HelloR.r
 info Dart && ./HelloDart.dart
 info Julia && ./HelloJulia.jl
+info Lua && ./HelloLua.lua
 info Haxe && ./HelloHaxe.hx
 info Octave && ./HelloOctave.m 2>/dev/null
 #info Genie && ./HelloGenie.gs # Something is wrong with valac...
