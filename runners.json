@@ -403,5 +403,14 @@
             "fedora": "sudo dnf install -y lua",
             "ubuntu": "sudo apt-get install -y lua5.3"
         }
+    },
+
+    ".fnl": {
+        "ext": "fnl",
+        "name": "Fennel",
+        "outFile": "'{sourceFile}'",
+        "cm": "",
+        "rn": "fennel {outFile}",
+        "needs": [ "fennel" ]
     }
 }
