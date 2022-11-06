@@ -139,7 +139,7 @@ fn main() {
     cmd.parse(os.args)
 }
 
-fn run(cmd cli.Command) ? {
+fn run(cmd cli.Command) ! {
 
     languages := init_langs()
 
@@ -231,19 +231,19 @@ fn run(cmd cli.Command) ? {
     }
 
     mut vars_map := map[string]string
-    vars_map['{arch}']          = arch
-    vars_map['{fileName}']      = file_name
-    vars_map['{fileNameNoExt}'] = file_name_no_ext
-    vars_map['{filePath}']      = file_path
-    vars_map['{fileExtension}'] = file_extension
-    vars_map['{outPath}']       = out_path
-    vars_map['{tempFile}']      = temp_file
-    vars_map['{inputFiles}']    = input_files
-    vars_map['{sourceFile}']    = source_file
+    vars_map[r'{arch}']          = arch
+    vars_map[r'{fileName}']      = file_name
+    vars_map[r'{fileNameNoExt}'] = file_name_no_ext
+    vars_map[r'{filePath}']      = file_path
+    vars_map[r'{fileExtension}'] = file_extension
+    vars_map[r'{outPath}']       = out_path
+    vars_map[r'{tempFile}']      = temp_file
+    vars_map[r'{inputFiles}']    = input_files
+    vars_map[r'{sourceFile}']    = source_file
 
     lang     := languages.get(file_extension[1..])
     out_file := format_item(vars_map, lang.out_file)
-    vars_map['{outFile}'] = out_file
+    vars_map[r'{outFile}'] = out_file
     mut cm   := format_item(vars_map, lang.cm)
     mut rn   := format_item(vars_map, lang.rn)
 
@@ -264,7 +264,7 @@ fn run(cmd cli.Command) ? {
                 .replace('{{', '{')
                 .replace('}}', '}')
                 .replace('\\n', '\n')
-                .replace('{s}', tmp_src)
+                .replace(r'{s}', tmp_src)
         }
         os.write_file(source_file, tmp_src) or { panic(err) }
     }
