@@ -199,6 +199,21 @@
         }
     },
 
+    ".zig": {
+        "ext": "zig",
+        "name": "Zig",
+        "outFile": "'{outPath}{fileName}.bin'",
+        "cm": "zig build-exe {inputFiles} -femit-bin={outFile} --cache-dir '{outPath}/zig-cache'",
+        "rn": "{outFile}",
+        "tmp": "const std = @import(\"std\");\npub fn main() !void {{ {s} }}",
+        "needs": [ "zig" ],
+        "install": {
+            "arch": "sudo pacman --noconfirm --needed -S zig",
+            "fedora": "sudo dnf install -y zig",
+            "ubuntu": "sudo snap install zig --classic --edge"
+        }
+    },
+
     ".go": {
         "ext": "go",
         "name": "Go",

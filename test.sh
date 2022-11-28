@@ -15,6 +15,7 @@ info V && ./HelloV.v
 info CS && ./HelloCS.cs
 info Go && ./HelloGo.go
 info Rust && ./HelloRust.rs
+info Zig && ./HelloZig.zig
 info Java && ./HelloJava.java 2>/dev/null
 info Kotlin && ./HelloKotlin.kt 2>/dev/null
 info KotlinScript && ./HelloKotlinScript.kts 2>/dev/null
