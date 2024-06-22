@@ -7,33 +7,32 @@ info() {
     echo "$* ============"
 }
 
-info IntelAsm && ./HelloIntelAsm.asm
-info ArmAsm && ./HelloArmAsm.s
-info C && ./HelloC.c
-info Cpp && ./HelloCpp.cpp
-info V && ./HelloV.v
-info CS && ./HelloCS.cs
-info Go && ./HelloGo.go
-info Rust && ./HelloRust.rs
-info Zig && ./HelloZig.zig
-info Java && ./HelloJava.java 2>/dev/null
-info Kotlin && ./HelloKotlin.kt 2>/dev/null
-info KotlinScript && ./HelloKotlinScript.kts 2>/dev/null
-info TS && ./HelloTS.ts
-info JS && ./HelloJS.js
-info Py && ./HelloPy.py
-info Sh && ./HelloSh.sh
-info OCaml && ./HelloOCaml.ml
-info AWK && ./HelloAWK.awk
-info Perl && ./HelloPerl.pl
-info R && ./HelloR.r
-info Dart && ./HelloDart.dart
-info Julia && ./HelloJulia.jl
-info Lua && ./HelloLua.lua
-info Haxe && ./HelloHaxe.hx
-info Octave && ./HelloOctave.m 2>/dev/null
-#info Genie && ./HelloGenie.gs # Something is wrong with valac...
-info Vala && ./HelloVala.vala
+info IntelAsm     && time ./HelloIntelAsm.asm
+info ArmAsm       && time ./HelloArmAsm.s
+info C            && time ./HelloC.c
+info Cpp          && time ./HelloCpp.cpp
+info V            && time ./HelloV.v
+info CS           && time ./HelloCS.cs
+info Go           && time ./HelloGo.go
+info Rust         && time ./HelloRust.rs
+info Zig          && time ./HelloZig.zig
+info Java         && time ./HelloJava.java 2>/dev/null
+info Kotlin       && time ./HelloKotlin.kt 2>/dev/null
+info KotlinScript && time ./HelloKotlinScript.kts 2>/dev/null
+info TS           && time ./HelloTS.ts
+info JS           && time ./HelloJS.js
+info Py           && time ./HelloPy.py
+info Sh           && time ./HelloSh.sh
+info OCaml        && time ./HelloOCaml.ml
+info AWK          && time ./HelloAWK.awk
+info Perl         && time ./HelloPerl.pl
+info R            && time ./HelloR.r
+info Dart         && time ./HelloDart.dart
+info Julia        && time ./HelloJulia.jl
+info Lua          && time ./HelloLua.lua
+info Haxe         && time ./HelloHaxe.hx
+info Octave       && time ./HelloOctave.m 2>/dev/null
+info Vala         && time ./HelloVala.vala
 
 info TS from 3 to 5
 rn -f 3 -t 5 ./HelloTS2.ts

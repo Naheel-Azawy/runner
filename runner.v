@@ -5,7 +5,7 @@ import json
 struct Lang {
     ext      string
     name     string
-    out_file string [json:outFile]
+    out_file string @[json:outFile]
     cm       string
     rn       string
     tmp      string
@@ -21,7 +21,7 @@ struct Langs {
 }
 
 struct LangInstall {
-    default string [json:default]
+    default string @[json:default]
     arch    string
     fedora  string
     ubuntu  string
@@ -119,8 +119,7 @@ fn main() {
         name: 'rn',
         description: 'Run everything like a script!',
         version: '1.0.0',
-        execute: run,
-        parent: 0
+        execute: run
     }
     cmd.add_flag(cli.Flag{ flag: .string, name: 'compargs',  abbrev: 'c',
                            description: 'Arguments from the compiler'})
@@ -129,9 +128,9 @@ fn main() {
     cmd.add_flag(cli.Flag{ flag: .string, name: 'morefiles', abbrev: 'm',
                            description: 'Additional files'})
     cmd.add_flag(cli.Flag{ flag: .int,    name: 'from',      abbrev: 'f',
-                           description: 'Lines from', value: ['0']})
+                           description: 'Lines from', default_value: ['0']})
     cmd.add_flag(cli.Flag{ flag: .int,    name: 'to',        abbrev: 't',
-                           description: 'Lines to',   value: ['-1']})
+                           description: 'Lines to',   default_value: ['-1']})
     cmd.add_flag(cli.Flag{ flag: .bool,   name: 'showcmds',  abbrev: 'v'
                            description: 'Print executed commands'})
     cmd.add_flag(cli.Flag{ flag: .bool,   name: 'outlangs',
